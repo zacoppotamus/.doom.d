@@ -56,15 +56,39 @@
 ;;
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
-(add-hook!
- js2-mode 'prettier-js-mode
- add-hook 'before-save-hook #'refmt-before-save nil t
- (unless (locate-dominating-file default-directory ".prettierrc"))
- (format-all-mode -1))
 
-(add-hook!
- css-mode 'prettier-js-mode
- add-hook 'before-save-hook #'refmt-before-save nil t
- ;; (unless (locate-dominating-file default-directory ".prettierrc"))
- ;; (format-all-mode -1)
- )
+
+(add-hook 'elisp-mode 'parinfer-mode-enable)
+(add-hook 'js-mode-hook 'js2-minor-mode)
+
+;; (defun my/use-prettier-if-in-node-modules ()
+;;   "Use prettier-js-mode if prettier is found in this file's
+;; project's node_modules. Use the prettier binary from this
+;; project."
+;;   (let* ((root (locate-dominating-file
+;;                 (or (buffer-file-name) default-directory)
+;;                 "node_modules"))
+;;          (prettier (and root
+;;                         (expand-file-name "node_modules/prettier/bin-prettier.js"
+;;                                           root))))
+;;     (when (and prettier (file-executable-p prettier))
+;;       (setq prettier-js-command prettier)
+;;       (prettier-js-mode))))
+
+;; (when (require 'prettier-js nil t)
+;;   (make-variable-buffer-local 'prettier-js-command)
+;;   (add-hook 'js2-mode-hook #'my/use-prettier-if-in-node-modules))
+
+
+(display-battery-mode 1)
+
+;; Scroll one line at a time
+;; From: https://www.emacswiki.org/emacs/SmoothScrolling
+(setq scroll-step 1) ;; keyboard scroll one line at a time
+(setq mouse-wheel-scroll-amount '(1 ((shift) . 1))) ;; one line at a time
+;; scroll just enough to make point/cursor visible when it goes past start or end of visible area in buffer
+(setq scroll-conservatively 101)
+
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
+
+(treemacs-resize-icons 12)
