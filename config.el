@@ -25,15 +25,27 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'doom-one)
+(setq doom-theme 'doom-moonlight)
 (setq doom-font (font-spec :family "Source Code Pro for Powerline" :size 13))
 
+(setq neo-theme (if (display-graphic-p) 'icons 'arrow))
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
-(setq org-directory "~/org/")
+(setq org-directory "~/org/"
+      org-journal-file-type 'weekly
+      org-journal-file-format "%Y-%m-%d.org"
+      org-journal-enable-agenda-integration t
+      org-archive-location (concat org-directory ".archive/%s::")
+      org-log-done 'time
+      org-roam-directory (concat org-directory "notes/")
+      org-roam-graph-executable "/usr/local/bin/dot"
+      org-roam-graph-viewer nil)
+
 
 (after! org
   (require 'org-tempo))
+;; (add-to-list 'org-agenda-files org-journal-dir)
+
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -91,4 +103,9 @@
 
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
-(treemacs-resize-icons 12)
+;; (treemacs-resize-icons 12)
+;; (treemacs-set-width 28)
+
+;; Vanish title bars, etc.
+(add-to-list 'initial-frame-alist '(fullscreen . maximized))
+;; (toggle-frame-fullscreen)

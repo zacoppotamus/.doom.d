@@ -48,3 +48,7 @@
 ;(unpin! pinned-package another-pinned-package)
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
 ;(unpin! t)
+(package! oauth2 :disable t)
+(package! treemacs :disable t)
+(package! spotify :disable t)
+;;   :recipe (:host github :repo "danielfm/spotify.el"))
