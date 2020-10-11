@@ -36,11 +36,61 @@
       org-journal-file-format "%Y-%m-%d.org"
       org-journal-enable-agenda-integration t
       org-archive-location (concat org-directory ".archive/%s::")
-      org-log-done 'time
-      org-roam-directory (concat org-directory "notes/")
-      org-roam-graph-executable "/usr/local/bin/dot"
-      org-roam-graph-viewer nil)
+      org-log-done 'time)
+;; org-roam-directory (concat org-directory "notes/")
+;; org-roam-graph-executable "/usr/local/bin/dot"
+;; org-roam-graph-viewer nil
+;; org-roam-capture-templates '(("c" "concept" plain (function org-roam--capture-get-point)
+;;                               "%?"
+;;                               :file-name "concepts/${slug}"
+;;                               :head "#+title: ${title}\n"
+;;                               :unarrowed t)))
 
+(setq org-capture-templates
+      `(("i" "Inbox" entry (file "~/org/gtd/inbox.org")
+                        ,(concat "* TODO %?\n" "\Entered on\ %u"))))
+
+(use-package! org-roam
+  :commands (org-roam-insert org-roam-find-file org-roam-switch-to-buffer org-roam)
+  :hook
+  (after-init . org-roam-mode)
+  :init
+  (map! :leader
+        :prefix "n"
+        :desc "org-roam" "l" #'org-roam
+        :desc "org-roam-insert" "i" #'org-roam-insert
+        :desc "org-roam-switch-to-buffer" "b" #'org-roam-switch-to-buffer
+        :desc "org-roam-find-file" "f" #'org-roam-find-file
+        :desc "org-roam-show-graph" "g" #'org-roam-show-graph
+        :desc "org-roam-insert" "i" #'org-roam-insert
+        :desc "org-roam-capture" "c" #'org-roam-capture)
+  (setq org-roam-directory (concat org-directory "notes/")
+        org-roam-db-gc-threshold most-positive-fixnum
+        org-roam-graph-exclude-matcher "private"
+        org-roam-graph-executable "/usr/local/bin/dot"
+        org-roam-tag-sources '(prop last-directory)
+        org-id-link-to-org-use-id t)
+  :config
+  (setq org-roam-capture-templates
+        '(
+          ("c" "concept" plain (function org-roam--capture-get-point)
+           "%?"
+           :file-name "concepts/${slug}"
+           :head "#+title: ${title}\n"
+           :unnarrowed t)
+          ("p" "private" plain (function org-roam-capture--get-point)
+           "%?"
+           :file-name "private/${slug}"
+           :head "#+title: ${title}\n"))))
+:unnarrowed t
+(setq org-roam-capture-ref-templates
+      '(("r" "ref" plain (function org-roam-capture--get-point)
+         "%?"
+         :file-name "lit/${slug}"
+         :head "#+roam_key: ${ref}
+#+roam_tags: website
+#+title: ${title}
+- source :: ${ref}")))
 
 (after! org
   (require 'org-tempo))
