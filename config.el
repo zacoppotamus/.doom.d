@@ -31,24 +31,38 @@
 (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
-(setq org-directory "~/org/"
-      org-journal-file-type 'weekly
-      org-journal-file-format "%Y-%m-%d.org"
-      org-journal-enable-agenda-integration t
-      org-archive-location (concat org-directory ".archive/%s::")
-      org-log-done 'time)
-;; org-roam-directory (concat org-directory "notes/")
-;; org-roam-graph-executable "/usr/local/bin/dot"
-;; org-roam-graph-viewer nil
-;; org-roam-capture-templates '(("c" "concept" plain (function org-roam--capture-get-point)
-;;                               "%?"
-;;                               :file-name "concepts/${slug}"
-;;                               :head "#+title: ${title}\n"
-;;                               :unarrowed t)))
+(setq org-directory "~/org/")
 
+;; (setq org-refile-targets '((org-agenda-files . (:level . 1))))
 (setq org-capture-templates
       `(("i" "Inbox" entry (file "~/org/gtd/inbox.org")
-                        ,(concat "* TODO %?\n" "\Entered on\ %u"))))
+         ,(concat "* TODO %?\n" "Entered on %u"))
+        ("c" "org-protocol-capture" entry (file "~/org/gtd/inbox.org")
+         ,(concat"* TODO [[%:link][%:description]]\n\n %i")
+         :immediate-finish t)))
+
+
+
+(use-package! org-roam-protocol
+  :after org-protocol)
+
+(after! org
+  (require 'org-tempo)
+  (setq org-journal-file-type 'weekly
+        org-journal-file-format "%Y-%m-%d.org"
+        org-journal-date-format "%A, %d %B %Y"
+        org-journal-time-prefix "** "
+        org-journal-enable-agenda-integration t
+        ;; org-agenda-files (directory-files-recursively "~/org/" "\\.org$")
+        org-archive-location (concat org-directory ".archive/%s::")
+        org-log-done 'time)
+  (require 'find-lisp)
+  (setq zac/org-agenda-directory (file-truename "~/org/"))
+  (setq org-agenda-files
+        (find-lisp-find-files zac/org-agenda-directory "\.org$")))
+
+;; (add-to-list 'org-agenda-files org-journal-dir)
+
 
 (use-package! org-roam
   :commands (org-roam-insert org-roam-find-file org-roam-switch-to-buffer org-roam)
@@ -81,21 +95,21 @@
           ("p" "private" plain (function org-roam-capture--get-point)
            "%?"
            :file-name "private/${slug}"
-           :head "#+title: ${title}\n"))))
-:unnarrowed t
-(setq org-roam-capture-ref-templates
-      '(("r" "ref" plain (function org-roam-capture--get-point)
-         "%?"
-         :file-name "lit/${slug}"
-         :head "#+roam_key: ${ref}
+           :head "#+title: ${title}\n"
+           :unnarrowed t)
+          ("r" "ref" plain (function org-roam-capture--get-point)
+           "%?"
+           :file-name "lit/${slug}"
+           :head "#+roam_key: ${ref}
 #+roam_tags: website
 #+title: ${title}
-- source :: ${ref}")))
+- source :: ${ref}"))))
 
-(after! org
-  (require 'org-tempo))
-;; (add-to-list 'org-agenda-files org-journal-dir)
-
+(setq org-fast-tag-selection-single-key nil)
+(setq org-refile-use-outline-path 'file
+      org-outline-path-complete-in-steps nil)
+(setq org-refile-allow-creating-parent-nodes 'confirm
+      org-refile-targets '((org-agenda-files . (:level . 2))))
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
