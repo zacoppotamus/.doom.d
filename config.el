@@ -26,14 +26,13 @@
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
 (setq doom-theme 'doom-moonlight)
-(setq doom-font (font-spec :family "Source Code Pro for Powerline" :size 13))
+(setq doom-font (font-spec :family "Source Code Pro for Powerline" :size 12))
 
 (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
 (setq org-directory "~/org/")
 
-;; (setq org-refile-targets '((org-agenda-files . (:level . 1))))
 (setq org-capture-templates
       `(("i" "Inbox" entry (file "~/org/gtd/inbox.org")
          ,(concat "* TODO %?\n" "Entered on %u"))
@@ -53,7 +52,6 @@
         org-journal-date-format "%A, %d %B %Y"
         org-journal-time-prefix "** "
         org-journal-enable-agenda-integration t
-        ;; org-agenda-files (directory-files-recursively "~/org/" "\\.org$")
         org-archive-location (concat org-directory ".archive/%s::")
         org-log-done 'time)
   (require 'find-lisp)
@@ -109,7 +107,7 @@
 (setq org-refile-use-outline-path 'file
       org-outline-path-complete-in-steps nil)
 (setq org-refile-allow-creating-parent-nodes 'confirm
-      org-refile-targets '((org-agenda-files . (:level . 2))))
+      org-refile-targets '((org-agenda-files . (:maxlevel . 4))))
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
