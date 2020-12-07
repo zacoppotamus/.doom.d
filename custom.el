@@ -17,7 +17,7 @@
  '(minimap-mode t t)
  '(objed-cursor-color "#CC9393")
  '(org-agenda-files
-   '("~/Documents/org/abnormal.org" "/Users/zac/org/admin.org" "/Users/zac/org/code.org" "/Users/zac/org/devops.org" "/Users/zac/org/docker.org" "/Users/zac/org/forensic-architecture.org" "/Users/zac/org/index.org" "/Users/zac/org/internal.izac.us.org" "/Users/zac/org/journal.org" "/Users/zac/org/tasks.org" "/Users/zac/org/todo.org" "/Users/zac/Documents/org/journal/2020-10-19.org" "/Users/zac/Documents/org/journal/2020-10-12.org"))
+   '("~/Documents/org/journal/2020-11-30.org" "~/Developer/Forensic Architecture/org-wiki/projects.org" "~/Documents/org/journal/2020-11-23.org" "~/Documents/org/journal/2020-11-16.org" "~/Documents/org/journal/2020-11-09.org" "~/Documents/org/abnormal.org" "/Users/zac/org/admin.org" "/Users/zac/org/code.org" "/Users/zac/org/devops.org" "/Users/zac/org/docker.org" "/Users/zac/org/forensic-architecture.org" "/Users/zac/org/index.org" "/Users/zac/org/internal.izac.us.org" "/Users/zac/org/journal.org" "/Users/zac/org/tasks.org"))
  '(pdf-view-midnight-colors (cons "#DCDCDC" "#3F3F3F"))
  '(rustic-ansi-faces
    ["#3F3F3F" "#CC9393" "#7F9F7F" "#F0DFAF" "#8CD0D3" "#DC8CC3" "#93E0E3" "#DCDCDC"])

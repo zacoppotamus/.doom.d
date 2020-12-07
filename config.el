@@ -36,6 +36,9 @@
 (setq org-capture-templates
       `(("i" "Inbox" entry (file "~/org/gtd/inbox.org")
          ,(concat "* TODO %?\n" "Entered on %u"))
+        ("L" "org-protocol-capture" entry (file "~/org/gtd/inbox.org")
+         ,(concat"* TODO [[%:link][%:description]]\n\n %i")
+         :immediate-finish t)
         ("c" "org-protocol-capture" entry (file "~/org/gtd/inbox.org")
          ,(concat"* TODO [[%:link][%:description]]\n\n %i")
          :immediate-finish t)))
@@ -88,6 +91,11 @@
           ("c" "concept" plain (function org-roam--capture-get-point)
            "%?"
            :file-name "concepts/${slug}"
+           :head "#+title: ${title}\n"
+           :unnarrowed t)
+          ("n" "note" plain (function org-roam--capture-get-point)
+           "%?"
+           :file-name "${slug}"
            :head "#+title: ${title}\n"
            :unnarrowed t)
           ("p" "private" plain (function org-roam-capture--get-point)
